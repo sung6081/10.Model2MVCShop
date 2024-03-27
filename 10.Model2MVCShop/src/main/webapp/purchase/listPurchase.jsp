@@ -35,6 +35,7 @@ HashMap<String, Object> map = (HashMap<String, Object>)request.getAttribute("map
 		
 		$($('.ct_list_b')[0]).css('color', 'red');
 		$($('.ct_list_b')[1]).css('color', 'red');
+		$($('.ct_list_b')[5]).css('color', 'red');
 		
 		$('.ct_list_pop:even').css('background-color', 'whitesmoke');
 		$('.ct_list_pop:odd td.ct_line02').css('background-color', 'whitesmoke');
@@ -103,9 +104,9 @@ HashMap<String, Object> map = (HashMap<String, Object>)request.getAttribute("map
 		<td colspan="11">전체 ${map.Integer }<%-- count--%> 건수, 현재 ${resultPage.currentPage } 페이지</td>
 	</tr>
 	<tr>
-		<td class="ct_list_b" width="100">No</td>
+		<td class="ct_list_b" width="100">No<br/><h7 >(click:상세정보)</h7></td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">물품명</td>
+		<td class="ct_list_b" width="150">물품명<br/><h7 >(click:구매물건정보)</h7></td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">상품이미지</td>
 		<td class="ct_line02"></td>

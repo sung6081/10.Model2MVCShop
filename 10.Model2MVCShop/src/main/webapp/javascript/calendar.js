@@ -95,7 +95,7 @@
 	
 		                        if (dt_current_day.getMonth() == dt_datetime.getMonth()){
 		                                str_buffer += "<a href=\"javascript:window.opener."+str_target+
-		                                ".value='"+tuning_date(dt_current_day)+"'; window.close();\">";
+		                                ".value='"+(dt_current_day)+"'; window.close();\">";
 		                                if(dt_current_day.getDay() == 0){
 		                                    str_buffer += "<font color=\"E02200\">";    
 		                                }else if(dt_current_day.getDay() == 6){

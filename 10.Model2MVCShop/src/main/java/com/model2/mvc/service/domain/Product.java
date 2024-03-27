@@ -12,6 +12,7 @@ public class Product {
 	private String prodName;
 	private int prodNo;
 	private Date regDate;
+	private String regDateString;
 	private String proTranCode;
 	private String cateNo;
 	private String cateName;
@@ -65,6 +66,9 @@ public class Product {
 		return regDate;
 	}
 	public void setRegDate(Date regDate) {
+		regDateString = regDate.toString().split(" ")[0].split("-")[0]
+				+regDate.toString().split(" ")[0].split("-")[1]
+				+regDate.toString().split(" ")[0].split("-")[2];
 		this.regDate = regDate;
 	}
 
@@ -84,11 +88,16 @@ public class Product {
 		this.cateName = cateName;
 	}
 
+	public String getRegDateString() {
+		return regDateString;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
 				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate
-				+ ", proTranCode=" + proTranCode + ", cateNo=" + cateNo + ", cateName=" + cateName + "]";
+				+ ", regDateString=" + regDateString + ", proTranCode=" + proTranCode + ", cateNo=" + cateNo
+				+ ", cateName=" + cateName + "]";
 	}
 		
 }

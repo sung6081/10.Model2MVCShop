@@ -11,16 +11,6 @@
 <%@page import="com.model2.mvc.common.Page"%>
 <%@page import="com.model2.mvc.common.util.CommonUtil"%>
 
-<%--
-	List<User> list= (List<User>)request.getAttribute("list");
-	Page resultPage=(Page)request.getAttribute("resultPage");
-	
-	Search search = (Search)request.getAttribute("search");
-	//==> null 을 ""(nullString)으로 변경
-	String searchCondition = CommonUtil.null2str(search.getSearchCondition());
-	String searchKeyword = CommonUtil.null2str(search.getSearchKeyword());
---%>
-
 <html>
 <head>
 <title>회원 목록 조회</title>
@@ -61,6 +51,50 @@
 		$('td.ct_btn01:contains("검색")').on('click', function() {
 			
 			fncGetUserList('1');
+			
+		});
+		
+		$('td.btn_extend').css('color', 'red');
+		$('td.btn_extend').on('click', function(event) {
+			
+			if($(this).text().trim() == '닫기') {
+				
+				$(this).html('펼치기<img width="12px" height="12px" src="/images/up_and_down.jpg">');
+				$('h3').remove();
+				return;
+				
+			}
+			
+			var userId = $(this).parent().children('#userId').text().trim();
+			var url = "/app/user/getUser/"+userId;
+			//alert(url);
+			$.get(url, function(JSONData, status) {
+				
+				var displayValue = "<h3>"
+					+"아이디 : "+JSONData.userId+"<br/>"
+					+"이  름 : "+JSONData.userName+"<br/>"
+					+"이메일 : "+JSONData.email+"<br/>"
+					+"ROLE : "+JSONData.role+"<br/>"
+					+"등록일 : "+JSONData.regDateString+"<br/>"
+					+"</h3>";
+					//Debug...									
+					//alert(displayValue);
+					//$('td.btn_extend').html('펼치기<img width="12px" height="12px" src="/images/up_and_down.jpg">');
+					//$(this).html('닫기<img width="12px" height="12px" src="/images/up_and_down.jpg">');
+					for(var i = 0; i < $('.btn_extend').size(); i++)
+					{
+						if($($('td.btn_extend')[i]).text().trim() == '닫기')
+						{
+							$($('td.btn_extend')[i]).html('펼치기<img width="12px" height="12px" src="/images/up_and_down.jpg">');
+						}
+					}
+					$(event.target).html('닫기<img width="12px" height="12px" src="/images/up_and_down.jpg">');
+					$('h3').remove();
+					//alert($('#append_'+userId).text());
+					//alert($(event.target).parents().children('#append_'+userId).html());
+					$('#append_'+userId).html(displayValue);
+				
+			}, "json");
 			
 		});
 	});
@@ -126,30 +160,28 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td colspan="11" >
-			전체  ${resultPage.totalCount }<%-- resultPage.getTotalCount() --%> 건수,	현재 ${resultPage.currentPage }<%-- resultPage.getCurrentPage() --%> 페이지 
+			전체  ${resultPage.totalCount } 건수,	현재 ${resultPage.currentPage }<%-- resultPage.getCurrentPage() --%> 페이지 
 		</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">회원ID</td>
+		<td class="ct_list_b" width="150">회원ID<br>
+			<h7 >(id click:상세정보)</h7></td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">회원명</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">이메일</td>		
+		<td class="ct_list_b">이메일</td>
+		<td class="ct_list_b"></td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	<%--
-		for(int i=0; i<list.size(); i++) {
-			User vo = list.get(i);
-	--%>
 	<f:set var="i" value="1" />
 	<f:forEach var="vo" items="${list }">
 	
 	<tr class="ct_list_pop">
-		<td align="center">${i}<%-- i + 1 --%></td>
+		<td align="center">${i}</td>
 		<f:set var="i" value="${i+1 }" />
 		<td class="ct_line02"></td>
 		<td id="userId" align="center">
@@ -157,12 +189,15 @@
 			${vo.userId }
 		</td>
 		<td class="ct_line02"></td>
-		<td align="center">${vo.userName }<%-- vo.getUserName() --%></td>
+		<td align="center">${vo.userName }</td>
 		<td class="ct_line02"></td>
-		<td align="center">${vo.email }<%-- vo.getEmail() --%>	</td>		
+		<td align="center">${vo.email }<span></span>
+		</td>
+		<td align="right" class="btn_extend" >펼치기<img width="12px" height="12px" src="/images/up_and_down.jpg">
+		</td>		
 	</tr>
 	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		<td id="append_${vo.userId }" colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
 	</f:forEach>
 	<%-- } --%>

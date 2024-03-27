@@ -15,12 +15,12 @@ public class User {
 	private String phone;
 	private String addr;
 	private String email;
+	private String regDateString;
 	private Date regDate;
 	/////////////// EL 적용 위해 추가된 Field ///////////
 	private String phone1;
 	private String phone2;
 	private String phone3;
-
 	
 	
 	///Constructor
@@ -88,6 +88,9 @@ public class User {
 		return regDate;
 	}
 	public void setRegDate(Date regDate) {
+		regDateString = regDate.toString().split(" ")[0].split("-")[0]
+				+regDate.toString().split(" ")[0].split("-")[1]
+				+regDate.toString().split(" ")[0].split("-")[2];
 		this.regDate = regDate;
 	}
 	/////////////// EL 적용 위해 추가된 getter Method ///////////
@@ -101,9 +104,13 @@ public class User {
 		return phone3;
 	}
 
+	public String getRegDateString() {
+		return regDateString;
+	}
+
 	@Override
 	public String toString() {
 		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
-			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
+			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate +" [regDateString] "+regDateString;
 	}
 }

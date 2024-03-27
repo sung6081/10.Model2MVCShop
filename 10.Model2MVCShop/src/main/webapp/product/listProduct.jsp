@@ -93,8 +93,8 @@ $(function() {
 	$('tr.ct_list_pop td.getProdNo_btn').css('color', 'red');
 	
 	//alert($('tr.ct_list_pop td.getProdNo_btn').parent(':nth-child(even)').html());
-	$('tr.ct_list_pop td.getProdNo_btn').parent(':nth-child(odd)').css('background-color', 'whitesmoke');
-	$('tr.ct_list_pop td.getProdNo_btn').parent(':nth-child(even)').children('td.ct_line02').css('background-color', 'whitesmoke');
+	$('tr.ct_list_pop td.getProdNo_btn').parent(':nth-child(4n+2)').css('background-color', 'whitesmoke');
+	$('tr.ct_list_pop td.getProdNo_btn').parent(':nth-child(4n)').children('td.ct_line02').css('background-color', 'whitesmoke');
 	
 	$($('tr td.ct_list_b')[1]).css('color', 'red');
 	
@@ -254,7 +254,14 @@ $(function() {
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b" width="150">상품명</td>
+		<td class="ct_list_b" width="150">상품명<br/>
+		<f:if test="${param.menu eq 'search' }">
+			<h7 >(click:상세정보, 구매)</h7>
+		</f:if>
+		<f:if test="${param.menu eq 'manage' }">
+			<h7 >(click:상세정보, 수정)</h7>
+		</f:if>
+		</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">상품이미지</td>
 		<td class="ct_line02"></td>
@@ -284,7 +291,10 @@ $(function() {
 				</td>
 			</f:if>
 			<f:if test="${!empty product.proTranCode }">
-				<td align="center">${product.prodName }<%-- productVO.getProdName() --%></td>
+				<td align="center" class="getProdNo_btn">
+					${product.prodName }
+					<input type="hidden" name="prodNo" value="${product.prodNo }" >
+				</td>
 			</f:if>
 		<td class="ct_line02"></td>
 		<td align="center"><img src = "/images/uploadFiles/${product.fileName }" width="50" height="50"/></td>
@@ -327,12 +337,13 @@ $(function() {
 		<%-- } --%>
 		</f:choose>
 		</f:if>
-		</f:forEach>
 		</td>	
 		</tr>
 	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
+		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
 	</tr>
+		</f:forEach>
+		
 	<%-- } --%>
 </table>
 

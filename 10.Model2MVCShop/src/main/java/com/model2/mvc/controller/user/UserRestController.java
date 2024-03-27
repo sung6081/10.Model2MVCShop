@@ -74,8 +74,13 @@ public class UserRestController {
 		
 		System.out.println("/app/user/getUser : GET");
 		
+		
+		User user = userService.getUser(userId);
+		
+		System.out.println(user);
+		
 		//Business Logic
-		return userService.getUser(userId);
+		return user;
 	}
 
 	@RequestMapping( value="login", method=RequestMethod.POST )
