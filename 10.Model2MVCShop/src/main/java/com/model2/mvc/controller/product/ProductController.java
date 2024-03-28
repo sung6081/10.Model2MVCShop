@@ -303,17 +303,16 @@ public class ProductController {
 		
 		ModelAndView modelAndView = new ModelAndView("/product/listProduct?memu=manage");
 		
-		List<Category> list = (List)session.getAttribute("listCategory");
+		//List<Category> list = (List)session.getAttribute("listCategory");
 		
-		for(Category cate : list) {
-			if(cate.getCateName().equals(cateName)) {
-				System.out.println("already exist");
-				modelAndView.addObject("duplicationCate", new Boolean(true));
-				System.out.println("addCategory end");
-				
-				return modelAndView;
-			}
-		}
+		/*
+		 * for(Category cate : list) { if(cate.getCateName().equals(cateName)) {
+		 * System.out.println("already exist");
+		 * modelAndView.addObject("duplicationCate", new Boolean(true));
+		 * System.out.println("addCategory end");
+		 * 
+		 * return modelAndView; } }
+		 */
 		
 		productService.addCategory(cateName);
 		

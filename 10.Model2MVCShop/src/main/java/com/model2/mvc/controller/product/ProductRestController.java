@@ -153,45 +153,25 @@ public class ProductRestController {
 		
 	}//updateProductViewAction
 	
-	@RequestMapping("addCategory")
-	public Boolean addCategory(@RequestParam("addCategory") String cateName, HttpSession session) throws Exception {
+	@RequestMapping(value="checkCategoryExist/{cateName}", method=RequestMethod.GET)
+	public Boolean checkCategoryExist(@PathVariable String cateName) throws Exception {
 		
-		System.out.println("addCategory start");
+		System.out.println("checkCategoryExist start");
 		
-		ModelAndView modelAndView = new ModelAndView("/product/listProduct?memu=manage");
-		
-		List<Category> list = (List)session.getAttribute("listCategory");
+		List<Category> list = productService.getCategoryList();
 		
 		for(Category cate : list) {
+			
 			if(cate.getCateName().equals(cateName)) {
-				System.out.println("already exist");
-				modelAndView.addObject("duplicationCate", new Boolean(true));
-				System.out.println("addCategory end");
-				
 				return new Boolean(false);
 			}
+			
 		}
 		
-		productService.addCategory(cateName);
-		
-		System.out.println("addCategory end");
+		System.out.println("checkCategoryExist end");
 		
 		return new Boolean(true);
-		
-	}//end of addCategory
-	
-	@RequestMapping("removeCategory")
-	public void removeCategory(@RequestParam("rmCategory") int cateNo) throws Exception {
-		
-		System.out.println("removeCategory start");
-		
-		productService.updateProdCategoryNull(cateNo);
-		
-		productService.removeCategory(cateNo);
-		
-		System.out.println("removeCategory end");
-		
-	}//end of removeCategory
+	}//end of checkCategoryExist
 	
 }//end of ProductController
 

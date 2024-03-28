@@ -29,21 +29,27 @@
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 function fncGetProductList(currentPage, menu) {
-	document.getElementById("currentPage").value = currentPage;
+	//document.getElementById("currentPage").value = currentPage;
+	$("#currentPage").val(currentPage);
    	document.detailForm.submit();		
 }
 
 function fncGetProductListLow(currentPage){
 	
-	console.log(1);
+	//console.log(1);
 	document.getElementById("currentPage").value = currentPage;
+	//$("#currentPage").val(currentPage);
 	if(document.getElementById("priceOptionLow").value != null && document.getElementById("priceOptionLow").value != ''){
 		document.getElementById("priceOptionLow").value = '';
+		//$('#priceOptionLow').val('');
 	}else {
 		document.getElementById("priceOptionHigh").value = '';
+		//$('#priceOptionHigh').val('');
 		document.getElementById("priceOptionLow").value = 'high';
+		//$('#priceOptionLow').val('high');
 	}
 	document.detailForm.submit();	
+	//$('form').submit();
 }
 
 function fncGetProductListHigh(currentPage){
@@ -87,6 +93,56 @@ $(function() {
 		
 		//alert($(this).children().val());
 		self.location = "/product/getProduct?prodNo="+$(this).children().val()+"&menu=${param.menu }";
+		
+	});
+	
+	$('#searchCondition').on('change', function() {
+		
+		if($(this).val() == "2"){
+		
+			//alert($('input[name="searchCondition"]').html());
+			$('input.ct_input_g').remove();
+			$('.search_btn').remove();
+			
+			var append = '<select id="searchRange" name="searchRange" class="ct_input_g" style="width:200px" onChange="fncGetProductList(${resultPage.currentPage})">'
+			+'<option value="0" ${searchVO.searchRange eq "0" ? "selected" : ""}>공짜</option>'
+			+'<option value="1" ${searchVO.searchRange eq "1" ? "selected" : ""}>1원~10,000원</option>'
+			+'<option value="2" ${searchVO.searchRange eq "2" ? "selected" : ""}>10,001원~100,000원</option>'
+			+'<option value="3" ${searchVO.searchRange eq "3" ? "selected" : ""}>100,001원~1,000,000원</option>'
+			+'<option value="4" ${searchVO.searchRange eq '4' ? "selected" : ""}>백만원~</option>'
+		+'</select>';
+			
+			//alert(append);
+			$(this).parent().append(append);
+			
+		}else{
+			
+			var append = '<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px"/>';
+			var append2 = '<td align="right" width="70" class="search_btn" >'
+				+'<table border="0" cellspacing="0" cellpadding="0">'
+				+'<tr>'
+				+'<td width="17" height="23">'
+				+'<img src="/images/ct_btnbg01.gif" width="17" height="23">'
+				+'</td>'
+				+'<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">'
+				+'<a href="javascript:fncGetProductList(1);">검색</a>'
+				+'</td>'
+				+'<td width="14" height="23">'
+				+'<img src="/images/ct_btnbg03.gif" width="14" height="23">'
+				+'</td>'
+				+'</tr>'
+				+'</table>'
+				+'</td>';
+			//alert(append);
+			//alert(append2);
+			
+			$('input.ct_input_g').remove();
+			$('.search_btn').remove();
+			$('#searchRange').remove();
+			$(this).parent().append(append);
+			$(this).parent().parent().append(append2);
+			
+		}
 		
 	});
 	
@@ -170,7 +226,7 @@ $(function() {
 		</td>
 		
 		<td align="right">
-			<select id="searchCondition" name="searchCondition" class="ct_input_g" style="width:80px" onChange="fncChangeSearchCondition(${resultPage.currentPage})"> 
+			<select id="searchCondition" name="searchCondition" class="ct_input_g" style="width:80px"> <!--  onChange="fncChangeSearchCondition(${resultPage.currentPage})" --> 
 			
 			<%-- if(searchVO.getSearchCondition() != null) { --%>
 				<f:if test="${!empty searchVO.searchCondition }">
@@ -203,20 +259,17 @@ $(function() {
 			<f:when test="${!empty searchVO.searchKeyword }">
 			<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px" value=${searchVO.searchKeyword } />
 			</f:when>
-			
-			
-			<%-- } else{ --%>
 			<f:otherwise>
 			<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px"  />
 			</f:otherwise>
-			<%-- } --%>
 			</f:choose>
 		</td>
 		
-		<td align="right" width="70">
+		<f:if test="${searchVO.searchCondition != '2' }">
+		<td align="right" width="70" class="search_btn" >
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
-				<f:if test="${searchVO.searchCondition != '2' }">
+				
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
@@ -226,11 +279,11 @@ $(function() {
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
 					</td>
-				</f:if>
+				
 				</tr>
 			</table>
 		</td>
-		
+		</f:if>
 	</tr>
 </table>
 
